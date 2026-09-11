@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +34,15 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        
+
+        String[] NapisyObrazek = new String[] {"Które to schronisko?", "Zwierzę na zdjęciu to", "W oddali są widoczne"};
+
+        String[] OdpowiedziRadio1 = new String[] {"Na Rysiance.", "owczarek.", "Himalaje."};
+        String[] OdpowiedziRadio2 = new String[] {"Na Wielkiej Raczy", "wilk.", "Alpy."};
+        String[] OdpowiedziRadio3 = new String[] {"Na Wielkiej Rycerzowej.", "kozica.", "Tatry."};
+
+        int[] OdpowiedziPoprawne = new int[] {2, 1, 3};
+        int[] obrazkiZadan = {R.drawable.zad1, R.drawable.zad2, R.drawable.zad3};
 
         RadioGroup RadioGroup = findViewById(R.id.RadioGroup);
         Radio1 = findViewById(R.id.Radio1);
@@ -46,6 +55,29 @@ public class MainActivity extends AppCompatActivity {
         Przycisk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int WybranyRadio = RadioGroup.indexOfChild(findViewById(RadioGroup.getCheckedRadioButtonId()));
+                boolean Poprawny = (WybranyRadio + 1 == OdpowiedziPoprawne[indeksAktualnegoPytania]);
+                if(Poprawny) {
+                    liczbaPunktow++;
+                }
+                //Toast.makeText(MainActivity.this, "Punkty: " + liczbaPunktow, Toast.LENGTH_SHORT).show();
+                indeksAktualnegoPytania++;
+
+                if(indeksAktualnegoPytania >= NapisyObrazek.length) {
+                    indeksAktualnegoPytania = 0;
+                }
+
+                Napis.setText(NapisyObrazek[indeksAktualnegoPytania]);
+                Radio1.setText(OdpowiedziRadio1[indeksAktualnegoPytania]);
+                Radio2.setText(OdpowiedziRadio2[indeksAktualnegoPytania]);
+                Radio3.setText(OdpowiedziRadio3[indeksAktualnegoPytania]);
+                Obraz.setImageResource(obrazkiZadan[indeksAktualnegoPytania]);
+                RadioGroup.clearCheck();
+                }
+
+
+
+                /*
                 String aktualnyTekst = Napis.getText().toString();
 
                 if(aktualnyTekst.equals("Które to schronisko?")){
@@ -78,8 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     Radio3.setText("Na Wielkiej Rycerzowej.");
                     Obraz.setImageResource(R.drawable.zad1);
                     RadioGroup.clearCheck();
-                }
-            }
+                }*/
         });
     }
 }
